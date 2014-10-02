@@ -8,13 +8,15 @@ var actionsMap = {
     utils.serveAssets(response, archive.paths.siteAssets + '/index.html');
   },
   POST: function(request, response) {
-    utils.getData(request, response, function() {
-      if (!archive.isUrlInList(request.url)) {
-        archive.addUrlToList(request.url);
+    console.log('inside post');
+    utils.getData(request, response, function(sitestring) {
+      console.log('sitestring', sitestring)
+      if (!archive.isUrlInList(sitestring)) {
+        archive.addUrlToList(sitestring);
       }
     });
     //FIX THE DATA
-    utils.sendResponse(response, data, 201);
+    utils.sendResponse(response, null, 302);
   },
   OPTIONS: function(request, response) {
     utils.sendResponse(response, null);

@@ -29,19 +29,15 @@ exports.urlIndex = {};
 
 exports.readListOfUrls = function(){
   //Populate indexer object on initialize
-  console.log('READING LIST OF URLS')
   fs.readFile(exports.paths.list, 'utf8', function(err, data) {
     if (err) { throw err; }
     else {
       var arr = data.trim().split('\n');
       for (var i = 0; i < arr.length; i++) {
         exports.urlIndex[arr[i]] = arr[i];
-        console.log(arr)
-        console.log(arr[i], exports.urlIndex[arr[i]])
       }
     }
   });
-  console.log('URL INDEX', exports.urlIndex)
 };
 
 exports.isUrlInList = function(key){
@@ -53,8 +49,9 @@ exports.isUrlInList = function(key){
 exports.addUrlToList = function(key){
   //addurltolist AND add reference to indexer object
   console.log('ADDING URL TO LIST')
-  exports.urlIndex[key] = key;
-  fs.write(exports.paths.list, key, function(err) {
+  console.log('key', key, typeof key)
+  //exports.urlIndex[key] = key;
+  fs.appendFile(exports.paths.list, key + '\n', 'utf8', function(err) {
     if (err) { throw err; }
     else { console.log('Saved to file list.') }
   })

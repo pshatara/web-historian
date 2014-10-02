@@ -7,11 +7,14 @@ var archive = require('../helpers/archive-helpers');
 
 var port = 8080;
 var ip = "127.0.0.1";
+
 archive.readListOfUrls();
-console.log('IN BASIC SERVER:', archive.urlIndex)
+
 
 var server = http.createServer(function(request, response) {
+  console.log('OMG')//, router[url.parse(request.url).pathname])
   if (router[url.parse(request.url).pathname]) {
+    console.log("we're inside router");
     router[url.parse(request.url).pathname](request, response);
   } else {
     utils.sendResponse(request, null, 404);

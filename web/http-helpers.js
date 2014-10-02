@@ -22,18 +22,21 @@ exports.serveAssets = function(response, asset, callback) {
 
 exports.getData = function(request, response, callback) {
   var sites = '';
+  console.log('into getData');
   request.on('data', function(chunk) {
     sites += chunk;
   });
   request.on('end', function() {
-    callback(JSON.parse(sites));
+    console.log('request on end');
+
+    callback(sites.slice(4));
   });
 };
 
 exports.sendResponse = function(response, data, statusCode) {
   statusCode = statusCode || 200;
   response.writeHead(statusCode, headers);
-  response.end(JSON.stringify(data));
+  response.end(data);
 };
 
 
