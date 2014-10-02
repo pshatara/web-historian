@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var handler = require("../web/request-handler");
+var archivehandler = require("../web/archive-handler");
 var stubs = require("./stubs/stubs");
 var fs = require('fs');
 var archive = require("../helpers/archive-helpers");
@@ -41,7 +42,7 @@ describe("Node Server Request Listener Function", function() {
     var fixtureName = "www.google.com";
     var req = new stubs.Request("/" + fixtureName, "GET");
 
-    handler.handleRequest(req, res);
+    archivehandler.handleRequest(req, res);
 
     waitForThen(
       function() { return res._ended; },

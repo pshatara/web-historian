@@ -25,33 +25,40 @@ exports.initialize = function(pathsObj){
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-var urlIndex = {};
+exports.urlIndex = {};
 
 exports.readListOfUrls = function(){
   //Populate indexer object on initialize
+  console.log('READING LIST OF URLS')
   fs.readFile(exports.paths.list, 'utf8', function(err, data) {
     if (err) { throw err; }
     else {
-      var arr = data.split('\n');
+      var arr = data.trim().split('\n');
       for (var i = 0; i < arr.length; i++) {
-        urlIndex[arr[i]] = arr[i];
+        exports.urlIndex[arr[i]] = arr[i];
+        console.log(arr)
+        console.log(arr[i], exports.urlIndex[arr[i]])
       }
     }
   });
+  console.log('URL INDEX', exports.urlIndex)
 };
 
 exports.isUrlInList = function(key){
   //check the indexer object
-  return !!(urlIndex[key]);
+  console.log('CHECK THAT URL IS IN LIST')
+  return !!(exports.urlIndex[key]);
 };
 
 exports.addUrlToList = function(key){
   //addurltolist AND add reference to indexer object
-  urlIndex[key] = key;
+  console.log('ADDING URL TO LIST')
+  exports.urlIndex[key] = key;
   fs.write(exports.paths.list, key, function(err) {
     if (err) { throw err; }
     else { console.log('Saved to file list.') }
   })
+  console.log('URL INDEX AFTER ADD', exports.urlIndex)
 };
 
 exports.isURLArchived = function(){

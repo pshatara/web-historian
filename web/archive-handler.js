@@ -1,11 +1,13 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var utils = require('./http-helpers');
+var url = require("url");
 // require more modules/folders here!
 
 var actionsMap = {
   GET: function(request, response) {
-    utils.serveAssets(response, archive.paths.siteAssets + '/index.html');
+    console.log('GET EXECUTED')
+    utils.serveAssets(response, archive.paths.archivedSites + url.parse(request.url).pathname);
   },
   POST: function(request, response) {
     utils.getData(request, response, function() {
