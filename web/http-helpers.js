@@ -12,6 +12,7 @@ exports.headers = headers = {
 
 exports.serveAssets = function(response, asset, callback) {
   var statusCode = 200;
+  console.log('WENT WRONG WAY')
   response.writeHead(statusCode, headers);
   fs.readFile(asset, 'utf8', function(err, data) {
     if (err) { throw err; }
@@ -22,13 +23,10 @@ exports.serveAssets = function(response, asset, callback) {
 
 exports.getData = function(request, response, callback) {
   var sites = '';
-  console.log('into getData');
   request.on('data', function(chunk) {
     sites += chunk;
   });
   request.on('end', function() {
-    console.log('request on end');
-
     callback(sites.slice(4));
   });
 };

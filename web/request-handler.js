@@ -1,16 +1,16 @@
-var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var utils = require('./http-helpers');
+var url = require("url");
+
 // require more modules/folders here!
 
 var actionsMap = {
   GET: function(request, response) {
+    console.log('URL PATHNAME',url.parse(request.url).pathname)
     utils.serveAssets(response, archive.paths.siteAssets + '/index.html');
   },
   POST: function(request, response) {
-    console.log('inside post');
     utils.getData(request, response, function(sitestring) {
-      console.log('sitestring', sitestring)
       if (!archive.isUrlInList(sitestring)) {
         archive.addUrlToList(sitestring);
       }

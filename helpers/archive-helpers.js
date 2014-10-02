@@ -26,6 +26,7 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.urlIndex = {};
+exports.queue = [];
 
 exports.readListOfUrls = function(){
   //Populate indexer object on initialize
@@ -35,6 +36,10 @@ exports.readListOfUrls = function(){
       var arr = data.trim().split('\n');
       for (var i = 0; i < arr.length; i++) {
         exports.urlIndex[arr[i]] = arr[i];
+        if(!exports.isURLArchived(arr[i])) {
+          exports.queue.push(arr[i]);
+          //AFTER LUNCH, CONNECT THIS TO ISURLARCHIVED AND USE CALLBACK HELL
+        }
       }
     }
   });
@@ -42,26 +47,32 @@ exports.readListOfUrls = function(){
 
 exports.isUrlInList = function(key){
   //check the indexer object
-  console.log('CHECK THAT URL IS IN LIST')
   return !!(exports.urlIndex[key]);
 };
 
 exports.addUrlToList = function(key){
   //addurltolist AND add reference to indexer object
-  console.log('ADDING URL TO LIST')
-  console.log('key', key, typeof key)
-  //exports.urlIndex[key] = key;
+  exports.urlIndex[key] = key;
+  exports.queue.push(key);
   fs.appendFile(exports.paths.list, key + '\n', 'utf8', function(err) {
     if (err) { throw err; }
     else { console.log('Saved to file list.') }
   })
-  console.log('URL INDEX AFTER ADD', exports.urlIndex)
 };
 
-exports.isURLArchived = function(){
-  //We will need an indexer object, to keep track of what's been archived?
-  //Use fs.readdir to repopulate wiped object on init.
-  //http://stackoverflow.com/questions/2727167/getting-all-filenames-in-a-directory-with-node-js
+exports.isURLArchived = function(url){
+  //check the filesystem to see if the url is in there.
+  fs.readdir(exports.paths.archivedSites, function(err,files){
+    if (err) { throw err; };
+    else {
+      for (var i=0; i<files.length; i++) {
+        if (files[i] === url) {
+          return true;
+        }
+      }
+      return false;
+    }
+  });
 };
 
 exports.downloadUrls = function(){

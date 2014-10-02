@@ -6,7 +6,6 @@ var url = require("url");
 
 var actionsMap = {
   GET: function(request, response) {
-    console.log('GET EXECUTED')
     utils.serveAssets(response, archive.paths.archivedSites + url.parse(request.url).pathname);
   },
   POST: function(request, response) {

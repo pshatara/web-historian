@@ -17,9 +17,7 @@ exports.getData = function(request, response, callback) {
 };
 
 exports.sendResponse = function(response, data, statusCode) {
-  console.log('SENDING RESPONSE')
   statusCode = statusCode || 200;
   response.writeHead(statusCode, headers);
-  console.log('DATA', data)
   response.end(JSON.stringify(data));
 };
